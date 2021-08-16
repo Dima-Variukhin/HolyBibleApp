@@ -1,4 +1,4 @@
-package com.example.holybibleapp
+ package com.example.holybibleapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
