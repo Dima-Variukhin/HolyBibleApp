@@ -4,6 +4,6 @@ import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.domain.BookDomain
 
 
-sealed class BookData : Abstract.Object<BookDomain, Abstract.Mapper.Empty>() {
+sealed class BooksData : Abstract.Object<BookDomain, BooksDataToDomainMapper>() {
 
 }
