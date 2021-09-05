@@ -12,6 +12,6 @@ abstract class Abstract {
     }
 
     interface Mapper {
-        class Empty() : Mapper
+        class Empty : Mapper
     }
 }

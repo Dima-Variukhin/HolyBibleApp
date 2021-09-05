@@ -12,13 +12,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val viewModel = (application as BibleApp).mainViewModel
 
-        var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val adapter = BibleAdapter()
         recyclerView.adapter = adapter
 
-        viewModel.observer(this) {
+        viewModel.observer(this, {
             adapter.update(it)
-        }
+        })
         viewModel.fetchBooks()
         // TODO:observe fail
     }
