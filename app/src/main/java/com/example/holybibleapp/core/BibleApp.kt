@@ -1,23 +1,21 @@
 package com.example.holybibleapp.core
 
 import android.app.Application
-import com.example.holybibleapp.data.BooksCloudDataSource
-import com.example.holybibleapp.data.BooksCloudMapper
-import com.example.holybibleapp.data.BooksRepository
-import com.example.holybibleapp.data.cache.BookCacheMapper
+import com.example.holybibleapp.data.*
 import com.example.holybibleapp.data.cache.BooksCacheDataSource
 import com.example.holybibleapp.data.cache.BooksCacheMapper
 import com.example.holybibleapp.data.cache.RealmProvider
-import com.example.holybibleapp.data.net.BookCloudMapper
 import com.example.holybibleapp.data.net.BooksService
+import com.example.holybibleapp.domain.BaseBookDataToDomainMapper
 import retrofit2.Retrofit
 import com.example.holybibleapp.domain.BaseBooksDataToDomainMapper
 import com.example.holybibleapp.domain.BooksInteractor
-import com.example.holybibleapp.presentation.BaseBooksDomainToUiMapper
-import com.example.holybibleapp.presentation.BooksCommunication
-import com.example.holybibleapp.presentation.MainViewModel
-import com.example.holybibleapp.presentation.ResourceProvider
+import com.example.holybibleapp.presentation.*
+import com.google.gson.Gson
 import io.realm.Realm
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 
 class BibleApp : Application() {
 
@@ -29,28 +27,40 @@ class BibleApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
+        val client = OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .build()
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(client)
             .build()
         val service = retrofit.create(BooksService::class.java)
-
-        val cloudDataSource = BooksCloudDataSource.Base(service)
-        val cacheDataSource = BooksCacheDataSource.Base(RealmProvider.Base())
-        val booksCloudMapper = BooksCloudMapper.Base(BookCloudMapper.Base())
-        val booksCacheMapper = BooksCacheMapper.Base(BookCacheMapper.Base())
-
+        val gson = Gson()
+        val toBookMapper = ToBookMapper.Base()
+        val cloudDataSource = BooksCloudDataSource.Base(service, gson)
+        val cacheDataSource =
+            BooksCacheDataSource.Base(RealmProvider.Base(), BookDataToDbMapper.Base())
+        val booksCloudMapper = BooksCloudMapper.Base(toBookMapper)
+        val booksCacheMapper = BooksCacheMapper.Base(toBookMapper)
         val booksRepository = BooksRepository.Base(
             cloudDataSource,
             cacheDataSource,
             booksCloudMapper,
             booksCacheMapper
         )
-        val booksInteractor = BooksInteractor.Base(booksRepository, BaseBooksDataToDomainMapper())
+        val booksInteractor = BooksInteractor.Base(
+            booksRepository,
+            BaseBooksDataToDomainMapper(BaseBookDataToDomainMapper())
+        )
         val communication = BooksCommunication.Base()
         mainViewModel = MainViewModel(
             booksInteractor,
-            BaseBooksDomainToUiMapper(communication, ResourceProvider.Base(this)),
-            BooksCommunication.Base()
+            BaseBooksDomainToUiMapper(ResourceProvider.Base(this), BaseBookDomainToUiMapper()),
+            communication
         )
     }
 }

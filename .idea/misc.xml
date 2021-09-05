@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/book_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fail_fullscreen.xml" value="0.6589403973509934" />
+        <entry key="app/src/main/res/layout/progress_fullscreen.xml" value="0.19972826086956522" />
       </map>
     </option>
   </component>

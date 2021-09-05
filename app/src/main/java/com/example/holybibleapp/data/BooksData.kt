@@ -1,13 +1,12 @@
 package com.example.holybibleapp.data
 
 import com.example.holybibleapp.core.Abstract
-import com.example.holybibleapp.core.Book
 import com.example.holybibleapp.domain.BooksDomain
 import java.lang.Exception
 
 
-sealed class BooksData : Abstract.Object<BooksDomain, BooksDataToDomainMapper>() {
-    data class Success(private val books: List<Book>) : BooksData() {
+sealed class BooksData : Abstract.Object<BooksDomain, BooksDataToDomainMapper> {
+    data class Success(private val books: List<BookData>) : BooksData() {
         override fun map(mapper: BooksDataToDomainMapper) = mapper.map(books)
     }
 

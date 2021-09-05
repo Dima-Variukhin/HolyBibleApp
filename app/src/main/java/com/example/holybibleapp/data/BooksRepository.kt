@@ -8,7 +8,6 @@ import java.lang.Exception
 interface BooksRepository {
     suspend fun fetchBooks(): BooksData
 
-    //берет у клаудДатаСоурса от сервера данные, если успешно, мапит к успеху , если нет то к провалу
     class Base(
         private val cloudDataSource: BooksCloudDataSource,
         private val cacheDataSource: BooksCacheDataSource,
