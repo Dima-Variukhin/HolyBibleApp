@@ -4,13 +4,15 @@ import org.junit.Assert.*
 import org.junit.Test
 import java.io.IOException
 import java.lang.Exception
+import java.lang.IllegalStateException
 
 class AbstractTest {
     @Test
     fun test_success() {
         val dataObject = TestDataObject.Success("a", "b")
         val domainObject = dataObject.map(DataMapper.Base())
-        assertTrue(domainObject is DomainObject.Success)
+        val expected = DomainObject.Success("a b")
+        assertEquals(expected, domainObject)
     }
 
     @Test
@@ -53,23 +55,22 @@ class AbstractTest {
             }
 
             override fun map(exception: Exception): DomainObject {
-                return DomainObject.Fail()
+                return DomainObject.Fail
             }
         }
     }
 
     sealed class DomainObject : Abstract.Object<UiObject, DomainToUiMapper> {
-        class Success(private val textCombined: String) : DomainObject() {
+        data class Success(private val textCombined: String) : DomainObject() {
             override fun map(mapper: DomainToUiMapper): UiObject {
-                TODO("not done yet")
+                throw IllegalStateException("a")
             }
         }
 
-        class Fail : DomainObject() {
+        object Fail : DomainObject() {
             override fun map(mapper: DomainToUiMapper): UiObject {
-                TODO("NOT DONE YET")
+                throw IllegalStateException("a")
             }
-
         }
     }
 
