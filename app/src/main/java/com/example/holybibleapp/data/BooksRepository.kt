@@ -4,7 +4,6 @@ import com.example.holybibleapp.data.cache.BooksCacheDataSource
 import com.example.holybibleapp.data.cache.BooksCacheMapper
 import java.lang.Exception
 
-
 interface BooksRepository {
     suspend fun fetchBooks(): BooksData
 
