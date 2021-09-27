@@ -1,8 +1,12 @@
 package com.example.holybibleapp.presentation
 
 import com.example.holybibleapp.R
-import com.example.holybibleapp.domain.BookDomainToUiMapper
-import com.example.holybibleapp.domain.ErrorType
+import com.example.holybibleapp.core.ResourceProvider
+import com.example.holybibleapp.domain.books.BookDomainToUiMapper
+import com.example.holybibleapp.core.ErrorType
+import com.example.holybibleapp.presentation.books.BaseBooksDomainToUiMapper
+import com.example.holybibleapp.presentation.books.BookUi
+import com.example.holybibleapp.presentation.books.BooksUi
 import org.junit.Assert.*
 import org.junit.Test
 import java.lang.IllegalStateException

@@ -1,5 +1,9 @@
 package com.example.holybibleapp.presentation
 
+import com.example.holybibleapp.presentation.books.BookUi
+import com.example.holybibleapp.presentation.books.BooksUi
+import com.example.holybibleapp.presentation.books.CollapsedIdsCache
+import com.example.holybibleapp.presentation.books.UiDataCache
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -74,7 +78,7 @@ class UiDataCacheSaveTest {
     }
 
 
-    private inner class TestIdCache : IdCache {
+    private inner class TestIdCache : CollapsedIdsCache {
 
         private val set = HashSet<Int>()
 
