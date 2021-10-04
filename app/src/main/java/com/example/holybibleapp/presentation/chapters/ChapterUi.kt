@@ -4,11 +4,15 @@ import com.example.holybibleapp.core.ComparableTextMapper
 import com.example.holybibleapp.core.TextMapper
 
 sealed class ChapterUi : ComparableTextMapper<ChapterUi> {
+    open fun open(show: Show) = Unit
+
     class Base(
         private val id: Int,
         private val text: String
     ) : ChapterUi() {
         override fun map(mapper: TextMapper) = mapper.map(text)
+
+        override fun open(show: Show) = show.show(id)
     }
 
     class Fail(

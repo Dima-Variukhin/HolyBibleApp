@@ -1,6 +1,7 @@
 package com.example.holybibleapp.presentation.books
 
 import android.content.Context
+import com.example.holybibleapp.core.PreferencesProvider
 import com.example.holybibleapp.core.Read
 import com.example.holybibleapp.core.Save
 
@@ -8,9 +9,10 @@ interface CollapsedIdsCache : Save<Int>, Read<Set<Int>> {
     fun start()
     fun finish()
 
-    abstract class Abstract(context: Context) : CollapsedIdsCache {
-        private val sharedPreferences =
-            context.getSharedPreferences(getFileName(), Context.MODE_PRIVATE)
+    abstract class Abstract(preferencesProvider: PreferencesProvider) : CollapsedIdsCache {
+        private val sharedPreferences by lazy {
+            preferencesProvider.provideSharedPreferences(getFileName())
+        }
         private val idSet = mutableListOf<Int>()
         override fun read(): Set<Int> {
             //читаем с sharedPreferences set of strings и мапим к интам
@@ -37,7 +39,8 @@ interface CollapsedIdsCache : Save<Int>, Read<Set<Int>> {
         }
     }
 
-    class Base(context: Context) : CollapsedIdsCache.Abstract(context) {
+    class Base(preferencesProvider: PreferencesProvider) :
+        CollapsedIdsCache.Abstract(preferencesProvider) {
 
         override fun getFileName() = ID_LIST_NAME
         override fun getKey() = IDS_KEY
@@ -48,7 +51,8 @@ interface CollapsedIdsCache : Save<Int>, Read<Set<Int>> {
         }
     }
 
-    class Mock(context: Context) : CollapsedIdsCache.Abstract(context) {
+    class Mock(preferencesProvider: PreferencesProvider) :
+        CollapsedIdsCache.Abstract(preferencesProvider) {
 
         override fun getFileName() = ID_LIST_NAME
         override fun getKey() = IDS_KEY

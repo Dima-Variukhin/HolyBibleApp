@@ -1,14 +1,15 @@
 package com.example.holybibleapp.presentation.books
 
 import android.content.Context
+import com.example.holybibleapp.core.PreferencesProvider
 import com.example.holybibleapp.core.Read
 import com.example.holybibleapp.core.Save
 
 interface BookCache : Save<Pair<Int, String>>, Read<Pair<Int, String>> {
 
-    class Base(context: Context) : BookCache {
+    class Base(preferencesProvider: PreferencesProvider) : BookCache {
         private val sharedPreferences =
-            context.getSharedPreferences(BOOK_ID_FILENAME, Context.MODE_PRIVATE)
+            preferencesProvider.provideSharedPreferences(BOOK_ID_FILENAME)
 
         override fun save(data: Pair<Int, String>) {
             sharedPreferences.edit().putInt(BOOK_ID_KEY, data.first).apply()

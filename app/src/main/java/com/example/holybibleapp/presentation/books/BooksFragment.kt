@@ -4,17 +4,19 @@ package com.example.holybibleapp.presentation.books
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import com.example.holybibleapp.R
 import com.example.holybibleapp.core.BibleApp
 import com.example.holybibleapp.core.Retry
 import com.example.holybibleapp.presentation.BaseFragment
 
 class BooksFragment : BaseFragment() {
-    private lateinit var viewModel: BooksViewModel
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = (requireActivity().application as BibleApp).provideBooksViewModel()
+
+    private val viewModelFactory by lazy {
+        (requireActivity().application as BibleApp).booksFactory()
     }
+
+    private val viewModel by activityViewModels<BooksViewModel> { viewModelFactory }
 
     override fun getTitle() = getString(R.string.app_name)
 

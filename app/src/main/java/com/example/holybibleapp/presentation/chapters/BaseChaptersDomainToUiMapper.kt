@@ -15,5 +15,5 @@ class BaseChaptersDomainToUiMapper(
     })
 
     override fun map(errorType: ErrorType) =
-        ChaptersUi.Base(listOf(ChapterUi.Base(-1, errorMessage(errorType))))
+        ChaptersUi.Base(listOf(ChapterUi.Fail(errorMessage(errorType))))
 }

@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = (application as BibleApp).mainViewModel
+        viewModel = (application as BibleApp).getMainViewModel()
 
         viewModel.observe(this) {
             val fragment = viewModel.getFragment(it)

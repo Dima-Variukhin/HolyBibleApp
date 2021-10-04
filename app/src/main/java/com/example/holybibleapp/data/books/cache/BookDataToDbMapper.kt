@@ -17,6 +17,5 @@ interface BookDataToDbMapper : Abstract.Mapper {
             bookDb.testament = testament
             return bookDb
         }
-
     }
 }

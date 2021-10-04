@@ -2,6 +2,7 @@ package com.example.holybibleapp.data.books.cloud
 
 import android.content.res.Resources
 import com.example.holybibleapp.R
+import com.example.holybibleapp.core.RawResourceReader
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.reflect.TypeToken
@@ -28,11 +29,10 @@ interface BooksCloudDataSource {
     }
 
     class Mock(
-        private val resources: Resources,
+        private val rawResourceReader: RawResourceReader,
         gson: Gson
     ) : BooksCloudDataSource.Abstract(gson) {
         override suspend fun getDataAsString() =
-            resources.openRawResource(R.raw.books_successful_responce).bufferedReader()
-                .use(BufferedReader::readText)
+            rawResourceReader.readText(R.raw.books_successful_responce)
     }
 }

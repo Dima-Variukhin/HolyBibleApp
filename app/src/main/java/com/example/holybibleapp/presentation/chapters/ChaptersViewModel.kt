@@ -5,7 +5,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.holybibleapp.NavigationCommunication
 import com.example.holybibleapp.core.Read
+import com.example.holybibleapp.core.Save
 import com.example.holybibleapp.domain.chapters.ChaptersDomainToUiMapper
 import com.example.holybibleapp.domain.chapters.ChaptersInteractor
 import kotlinx.coroutines.Dispatchers
@@ -17,8 +19,10 @@ class ChaptersViewModel(
     private val chaptersCommunication: ChaptersCommunication,
     private val chaptersMapper: ChaptersDomainToUiMapper,
     private val navigator: ChaptersNavigator,
-    private val bookCache: Read<Pair<Int, String>>
-) : ViewModel() {
+    private val bookCache: Read<Pair<Int, String>>,
+    private val chapterCache: Save<Int>,
+    private val navigationCommunication: NavigationCommunication
+) : ViewModel(), Show {
 
     init {
         Log.d("jsc91", "chapters newInstance")
@@ -46,5 +50,12 @@ class ChaptersViewModel(
     }
 
     fun getBookName() = bookCache.read().second
+    override fun show(id: Int) {
+        chapterCache.save(id)
+        navigator.nextScreen(navigationCommunication)
+    }
+}
 
+interface Show {
+    fun show(id: Int)
 }
