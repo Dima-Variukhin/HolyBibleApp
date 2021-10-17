@@ -2,20 +2,18 @@ package com.example.holybibleapp.data.books.cache
 
 import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.core.DbWrapper
+import io.realm.RealmObject
 
 
-interface BookDataToDbMapper : Abstract.Mapper {
+interface BookDataToDbMapper<E : RealmObject> : Abstract.Mapper {
 
-    fun mapToDb(id: Int, name: String, testament: String, db: DbWrapper<BookDb>): BookDb
+    fun mapToDb(id: Int, name: String, testament: String, db: DbWrapper<E>): E
 
-    class Base : BookDataToDbMapper {
-        override fun mapToDb(
-            id: Int, name: String, testament: String, db: DbWrapper<BookDb>
-        ): BookDb {
-            val bookDb = db.createObject(id)
-            bookDb.name = name
-            bookDb.testament = testament
-            return bookDb
-        }
+    class Base : BookDataToDbMapper<BookDb> {
+        override fun mapToDb(id: Int, name: String, testament: String, db: DbWrapper<BookDb>) =
+            db.createObject(id).apply {
+                this.name = name
+                this.testament = testament
+            }
     }
 }

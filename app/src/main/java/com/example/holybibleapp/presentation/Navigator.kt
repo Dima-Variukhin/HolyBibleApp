@@ -1,12 +1,10 @@
 package com.example.holybibleapp.presentation
 
-import android.content.Context
-import androidx.fragment.app.Fragment
 import com.example.holybibleapp.NavigationCommunication
 import com.example.holybibleapp.core.PreferencesProvider
 import com.example.holybibleapp.core.Read
+import com.example.holybibleapp.core.CacheDataSource
 import com.example.holybibleapp.core.Save
-import com.example.holybibleapp.presentation.books.BookCache
 import com.example.holybibleapp.presentation.books.BooksFragment
 import com.example.holybibleapp.presentation.books.BooksNavigator
 import com.example.holybibleapp.presentation.chapters.ChaptersFragment

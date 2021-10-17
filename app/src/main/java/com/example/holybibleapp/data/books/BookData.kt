@@ -1,24 +1,27 @@
 package com.example.holybibleapp.data.books
 
-import com.example.holybibleapp.core.Abstract
-import com.example.holybibleapp.core.DbWrapper
-import com.example.holybibleapp.core.Matcher
-import com.example.holybibleapp.core.Save
+import com.example.holybibleapp.core.*
 import com.example.holybibleapp.data.books.cache.BookDataToDbMapper
 import com.example.holybibleapp.data.books.cache.BookDb
 import com.example.holybibleapp.domain.books.BookDomain
+import io.realm.RealmObject
 
-class BookData(private val id: Int, private val name: String, private val testament: String) :
-    Abstract.Object.ToDb<BookDb, BookDataToDbMapper>,
-    Abstract.Object<BookDomain, BookDataToDomainMapper>,
-    Matcher<TestamentTemp>,
-    Save<TestamentTemp> {
-    override fun map(mapper: BookDataToDomainMapper) = mapper.map(id, name)
-    override fun mapBy(mapper: BookDataToDbMapper, db: DbWrapper<BookDb>) =
-        mapper.mapToDb(id, name, testament, db)
+interface BookData : Matcher<TestamentTemp>, Save<TestamentTemp>, Abstract.DataObject {
 
-    override fun matches(arg: TestamentTemp) = arg.matches(testament)
-    override fun save(data: TestamentTemp) = data.save(testament)
+    fun <T> map(mapper: BookDataToDomainMapper<T>): T
+    fun <T : RealmObject> map(mapper: BookDataToDbMapper<T>, db: DbWrapper<T>): T
+
+    data class Base(private val id: Int, private val name: String, private val testament: String) :
+        BookData {
+        override fun <T> map(mapper: BookDataToDomainMapper<T>) = mapper.map(id, name)
+
+        override fun <T : RealmObject> map(mapper: BookDataToDbMapper<T>, db: DbWrapper<T>) =
+            mapper.mapToDb(id, name, testament, db)
+
+
+        override fun matches(arg: TestamentTemp) = arg.matches(testament)
+        override fun save(data: TestamentTemp) = data.save(testament)
+    }
 }
 
 

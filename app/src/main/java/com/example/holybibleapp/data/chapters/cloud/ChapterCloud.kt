@@ -5,9 +5,13 @@ import com.example.holybibleapp.data.chapters.ChapterData
 import com.example.holybibleapp.data.chapters.ToChapterMapper
 import com.google.gson.annotations.SerializedName
 
-data class ChapterCloud(
-    @SerializedName("id")
-    private val id: Int
-) : Abstract.Object<ChapterData, ToChapterMapper> {
-    override fun map(mapper: ToChapterMapper) = mapper.map(id)
+interface ChapterCloud : Abstract.CloudObject {
+    fun <T> map(mapper: ToChapterMapper<T>): T
+
+    data class Base(
+        @SerializedName("id")
+        private val id: Int
+    ) : ChapterCloud {
+        override fun <T> map(mapper: ToChapterMapper<T>) = mapper.map(id)
+    }
 }

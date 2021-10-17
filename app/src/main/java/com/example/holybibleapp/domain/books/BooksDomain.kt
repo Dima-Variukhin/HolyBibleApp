@@ -1,18 +1,16 @@
 package com.example.holybibleapp.domain.books
 
-import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.core.ErrorType
 
-import com.example.holybibleapp.presentation.books.BooksUi
+sealed class BooksDomain {
+    abstract fun <T> map(mapper: BooksDomainToUiMapper<T>): T
 
-sealed class BooksDomain : Abstract.Object<BooksUi, BooksDomainToUiMapper> {
-    data class Success(
-        private val books: List<BookDomain>,
-    ) : BooksDomain() {
-        override fun map(mapper: BooksDomainToUiMapper) = mapper.map(books)
+
+    data class Success(private val books: List<BookDomain>) : BooksDomain() {
+        override fun <T> map(mapper: BooksDomainToUiMapper<T>) = mapper.map(books)
     }
 
     data class Fail(private val errorType: ErrorType) : BooksDomain() {
-        override fun map(mapper: BooksDomainToUiMapper) = mapper.map(errorType)
+        override fun <T> map(mapper: BooksDomainToUiMapper<T>) = mapper.map(errorType)
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.holybibleapp.NavigationCommunication
+import com.example.holybibleapp.core.CacheDataSource
 import com.example.holybibleapp.core.Save
 import com.example.holybibleapp.domain.books.BooksDomainToUiMapper
 import com.example.holybibleapp.domain.books.BooksInteractor
@@ -15,13 +16,13 @@ import kotlinx.coroutines.withContext
 
 class BooksViewModel(
     private val booksInteractor: BooksInteractor,
-    private val mapper: BooksDomainToUiMapper,
+    private val mapper: BooksDomainToUiMapper<BooksUi>,
     private val communication: BooksCommunication,
     private val uiDataCache: UiDataCache,
     private val bookIdCache: Save<Pair<Int, String>>,
     private val navigator: BooksNavigator,
     private val navigationCommunication: NavigationCommunication
-) : ViewModel() { //todo interface
+) : ViewModel(), ShowBook { //todo interface
 
     init {
         Log.d("jsc91", "books newInstance")
@@ -32,9 +33,8 @@ class BooksViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val resultDomain = booksInteractor.fetchBooks()
             val resultUi = resultDomain.map(mapper)
-            val actual = resultUi.cache(uiDataCache)
             withContext(Dispatchers.Main) {
-                actual.map(communication)
+                resultUi.map(communication)
             }
         }
     }
@@ -47,7 +47,7 @@ class BooksViewModel(
         communication.map(uiDataCache.changeState(id))
     }
 
-    fun showBook(id: Int, name: String) {
+    override fun show(id: Int, name: String) {
         bookIdCache.save(Pair(id, name))
         navigator.nextScreen(navigationCommunication)
     }
@@ -56,6 +56,8 @@ class BooksViewModel(
         navigator.saveBooksScreen()
         fetchBooks()
     }
+
+    fun save() = uiDataCache.saveState()
 
     override fun onCleared() {
         uiDataCache.saveState()

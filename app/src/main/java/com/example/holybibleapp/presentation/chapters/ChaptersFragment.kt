@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.holybibleapp.core.BibleApp
+import com.example.holybibleapp.core.ClickListener
 import com.example.holybibleapp.core.Retry
 import com.example.holybibleapp.presentation.BaseFragment
 
@@ -19,19 +20,16 @@ class ChaptersFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ChaptersAdapter(object : Retry {
-            override fun tryAgain() = viewModel.fetchChapters()
-        },
-            object : ChaptersAdapter.ChapterClickListener {
-                override fun show(item: ChapterUi) = item.open(viewModel)
+        val adapter = ChaptersAdapter(
+            object : Retry {
+                override fun tryAgain() = viewModel.fetchChapters()
+            },
+            object : ClickListener<ChapterUi> {
+                override fun click(item: ChapterUi) = item.open(viewModel)
             })
         viewModel.observeChapters(this) { adapter.update(it) }
         recyclerView?.adapter = adapter
 
         viewModel.init()
-    }
-
-    init {
-        Log.d("jsc91", "chaptersFragment()")
     }
 }

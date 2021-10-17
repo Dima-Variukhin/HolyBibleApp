@@ -5,16 +5,16 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 interface VersesCloudDataSource {
-    suspend fun fetcheVerses(bookId: Int, chapterId: Int): List<VerseCloud>
+    suspend fun fetcheVerses(bookId: Int, chapterId: Int): List<VerseCloud.Base>
 
     class Base(
         private val service: VersesService,
         private val gson: Gson
     ) : VersesCloudDataSource {
-        override suspend fun fetcheVerses(bookId: Int, chapterId: Int): List<VerseCloud> =
+        override suspend fun fetcheVerses(bookId: Int, chapterId: Int): List<VerseCloud.Base> =
             gson.fromJson(
                 service.fetchVerses(bookId, chapterId).string(),
-                object : TypeToken<List<VerseCloud>>() {}.type
+                object : TypeToken<List<VerseCloud.Base>>() {}.type
             )
     }
 }

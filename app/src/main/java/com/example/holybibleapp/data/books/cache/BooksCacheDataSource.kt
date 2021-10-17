@@ -3,15 +3,15 @@ package com.example.holybibleapp.data.books.cache
 import com.example.holybibleapp.core.DbWrapper
 import com.example.holybibleapp.core.Read
 import com.example.holybibleapp.core.RealmProvider
-import com.example.holybibleapp.core.Save
+import com.example.holybibleapp.core.CacheDataSource
 import com.example.holybibleapp.data.books.BookData
 import io.realm.Realm
 
-interface BooksCacheDataSource : Save<List<BookData>>, Read<List<BookDb>> {
+interface BooksCacheDataSource : CacheDataSource<BookData>, Read<List<BookDb>> {
 
     class Base(
         private val realmProvider: RealmProvider,
-        private val mapper: BookDataToDbMapper,
+        private val mapper: BookDataToDbMapper<BookDb>,
     ) : BooksCacheDataSource {
         override fun read(): List<BookDb> {
             realmProvider.provide().use { realm ->
@@ -23,7 +23,7 @@ interface BooksCacheDataSource : Save<List<BookData>>, Read<List<BookDb>> {
         override fun save(data: List<BookData>) = realmProvider.provide().use { realm ->
             realm.executeTransaction {
                 data.forEach { book ->
-                    book.mapBy(mapper, BookDbWrapper(it))
+                    book.map(mapper, BookDbWrapper(it))
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.example.holybibleapp.presentation.books
 import android.content.Context
 import com.example.holybibleapp.core.PreferencesProvider
 import com.example.holybibleapp.core.Read
+import com.example.holybibleapp.core.CacheDataSource
 import com.example.holybibleapp.core.Save
 
 interface BookCache : Save<Pair<Int, String>>, Read<Pair<Int, String>> {

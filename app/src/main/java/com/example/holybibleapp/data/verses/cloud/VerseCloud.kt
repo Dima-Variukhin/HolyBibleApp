@@ -5,14 +5,17 @@ import com.example.holybibleapp.data.verses.ToVerseMapper
 import com.example.holybibleapp.data.verses.VerseData
 import com.google.gson.annotations.SerializedName
 
-data class VerseCloud(
-    @SerializedName("id")
-    private val id: Int,
-    @SerializedName("verseId")
-    private val verseId: Int,
-    @SerializedName("verse")
-    private val text: String
-) : Abstract.Object<VerseData, ToVerseMapper> {
+interface VerseCloud : Abstract.CloudObject {
+    fun <T> map(mapper: ToVerseMapper<T>): T
 
-    override fun map(mapper: ToVerseMapper) = mapper.map(id, verseId, text)
+    data class Base(
+        @SerializedName("id")
+        private val id: Int,
+        @SerializedName("verseId")
+        private val verseId: Int,
+        @SerializedName("verse")
+        private val text: String
+    ) : VerseCloud {
+        override fun <T> map(mapper: ToVerseMapper<T>) = mapper.map(id, verseId, text)
+    }
 }

@@ -3,14 +3,11 @@ package com.example.holybibleapp.presentation.chapters
 import android.view.View
 import android.view.ViewGroup
 import com.example.holybibleapp.R
-import com.example.holybibleapp.core.BaseAdapter
-import com.example.holybibleapp.core.BaseViewHolder
-import com.example.holybibleapp.core.CustomTextView
-import com.example.holybibleapp.core.Retry
+import com.example.holybibleapp.core.*
 
 class ChaptersAdapter(
     private val retry: Retry,
-    private val clickListener: ChapterClickListener
+    private val clickListener: ClickListener<ChapterUi>
 ) : BaseAdapter<ChapterUi, BaseViewHolder<ChapterUi>>() {
     override fun getItemViewType(position: Int) = when (list[position]) {
         is ChapterUi.Base -> 0
@@ -27,19 +24,15 @@ class ChaptersAdapter(
     abstract class ChapterViewHolder(view: View) : BaseViewHolder<ChapterUi>(view) {
         class Base(
             view: View,
-            private val clickListener: ChapterClickListener
+            private val clickListener: ClickListener<ChapterUi>
         ) : ChapterViewHolder(view) {
             private val textView = itemView.findViewById<CustomTextView>(R.id.textView)
             override fun bind(item: ChapterUi) {
                 item.map(textView)
                 itemView.setOnClickListener {
-                    clickListener.show(item)
+                    clickListener.click(item)
                 }
             }
         }
-    }
-
-    interface ChapterClickListener {
-        fun show(item: ChapterUi)
     }
 }

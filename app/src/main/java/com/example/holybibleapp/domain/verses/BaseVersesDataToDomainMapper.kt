@@ -6,8 +6,8 @@ import com.example.holybibleapp.data.verses.VersesDataToDomainMapper
 import java.lang.Exception
 
 class BaseVersesDataToDomainMapper(
-    private val mapper: VerseDataToDomainMapper
-) : VersesDataToDomainMapper() {
+    private val mapper: VerseDataToDomainMapper<VerseDomain>
+) : VersesDataToDomainMapper<VersesDomain>() {
     override fun map(data: List<VerseData>) = VersesDomain.Success(data.map { verseData ->
         verseData.map(mapper)
     })

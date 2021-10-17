@@ -11,11 +11,11 @@ abstract class Abstract {
 
     interface Object<T, M : Mapper> {
         fun map(mapper: M): T
-
-        interface ToDb<T : RealmObject, M : Mapper> {
-            fun mapBy(mapper: M, db: DbWrapper<T>): T
-        }
     }
+
+    interface DataObject
+
+    interface CloudObject
 
     interface Mapper {
         //S -source , R- result

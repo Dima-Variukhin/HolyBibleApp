@@ -1,11 +1,10 @@
 package com.example.holybibleapp.data.verses
 
-import com.example.holybibleapp.core.Abstract
 
-interface ToVerseMapper : Abstract.Mapper {
-    fun map(id: Int, verseId: Int, text: String): VerseData
+interface ToVerseMapper<T> {
+    fun map(id: Int, verseId: Int, text: String): T
 
-    class Base : ToVerseMapper {
-        override fun map(id: Int, verseId: Int, text: String) = VerseData(id, verseId, text)
+    class Base : ToVerseMapper<VerseData> {
+        override fun map(id: Int, verseId: Int, text: String) = VerseData.Base(id, verseId, text)
     }
 }

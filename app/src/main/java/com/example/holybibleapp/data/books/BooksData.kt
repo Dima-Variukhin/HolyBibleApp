@@ -5,12 +5,14 @@ import com.example.holybibleapp.domain.books.BooksDomain
 import java.lang.Exception
 
 
-sealed class BooksData : Abstract.Object<BooksDomain, BooksDataToDomainMapper> {
+sealed class BooksData : Abstract.DataObject {
+    abstract fun <T> map(mapper: BooksDataToDomainMapper<T>): T
+
     data class Success(private val books: List<BookData>) : BooksData() {
-        override fun map(mapper: BooksDataToDomainMapper) = mapper.map(books)
+        override fun <T> map(mapper: BooksDataToDomainMapper<T>) = mapper.map(books)
     }
 
     data class Fail(private val e: Exception) : BooksData() {
-        override fun map(mapper: BooksDataToDomainMapper) = mapper.map(e)
+        override fun <T> map(mapper: BooksDataToDomainMapper<T>) = mapper.map(e)
     }
 }

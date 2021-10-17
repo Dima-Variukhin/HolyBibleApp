@@ -1,13 +1,14 @@
 package com.example.holybibleapp.presentation.books
 
 import com.example.holybibleapp.core.*
+import com.example.holybibleapp.presentation.chapters.Show
 
-sealed class BookUi : ComparableTextMapper<BookUi>, Matcher<Int>, Collapsing {
+sealed class BookUi : ComparableTextMapper<BookUi>, Matcher<Int>, Collapsing, Open<ShowBook> {
     override fun map(mapper: TextMapper) = Unit
     override fun matches(arg: Int) = false
     open fun changeState(): BookUi = Empty
     open fun saveId(cacheId: CollapsedIdsCache) = Unit
-    open fun open(bookListener: BooksAdapter.BookListener) = Unit
+    override fun open(show: ShowBook) = Unit
 
     object Empty : BookUi()
     object Progress : BookUi()
@@ -24,7 +25,7 @@ sealed class BookUi : ComparableTextMapper<BookUi>, Matcher<Int>, Collapsing {
             name == item.name
         } else false
 
-        override fun open(bookListener: BooksAdapter.BookListener) = bookListener.showBook(id, name)
+        override fun open(show: ShowBook) = show.show(id, name)
     }
 
     data class Testament(

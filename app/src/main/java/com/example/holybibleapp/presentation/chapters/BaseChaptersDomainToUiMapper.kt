@@ -7,9 +7,9 @@ import com.example.holybibleapp.domain.chapters.ChapterDomainToUiMapper
 import com.example.holybibleapp.domain.chapters.ChaptersDomainToUiMapper
 
 class BaseChaptersDomainToUiMapper(
-    private val mapper: ChapterDomainToUiMapper,
+    private val mapper: ChapterDomainToUiMapper<ChapterUi>,
     resourceProvider: ResourceProvider
-) : ChaptersDomainToUiMapper(resourceProvider) {
+) : ChaptersDomainToUiMapper<ChaptersUi>(resourceProvider) {
     override fun map(data: List<ChapterDomain>) = ChaptersUi.Base(data.map { chapterDomain ->
         chapterDomain.map(mapper)
     })

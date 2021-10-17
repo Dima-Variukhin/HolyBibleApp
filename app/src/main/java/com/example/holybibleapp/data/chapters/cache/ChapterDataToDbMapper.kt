@@ -1,14 +1,14 @@
 package com.example.holybibleapp.data.chapters.cache
 
-import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.core.DbWrapper
 import com.example.holybibleapp.presentation.chapters.ChapterId
+import io.realm.RealmObject
 
-interface ChapterDataToDbMapper : Abstract.Mapper {
+interface ChapterDataToDbMapper<T : RealmObject> {
 
-    fun mapToDb(chapterId: ChapterId, db: DbWrapper<ChapterDb>): ChapterDb
+    fun mapTo(chapterId: ChapterId, db: DbWrapper<T>): T
 
-    class Base : ChapterDataToDbMapper {
-        override fun mapToDb(chapterId: ChapterId, db: DbWrapper<ChapterDb>) = chapterId.mapToDb(db)
+    class Base : ChapterDataToDbMapper<ChapterDb> {
+        override fun mapTo(chapterId: ChapterId, db: DbWrapper<ChapterDb>) = chapterId.map(db)
     }
 }

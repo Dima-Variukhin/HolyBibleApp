@@ -7,8 +7,8 @@ import com.example.holybibleapp.data.books.TestamentTemp
 import java.lang.Exception
 
 
-class BaseBooksDataToDomainMapper(private val bookMapper: BookDataToDomainMapper) :
-    BooksDataToDomainMapper() {
+class BaseBooksDataToDomainMapper(private val bookMapper: BookDataToDomainMapper<BookDomain>) :
+    BooksDataToDomainMapper<BooksDomain>() {
     override fun map(data: List<BookData>): BooksDomain {
         val domainList = mutableListOf<BookDomain>()
         val temp = TestamentTemp.Base()

@@ -7,13 +7,13 @@ import com.example.holybibleapp.domain.verses.VerseDomainToUiMapper
 import com.example.holybibleapp.domain.verses.VersesDomainToUiMapper
 
 class BaseVersesDomainToUiMapper(
-    private val mapper: VerseDomainToUiMapper,
+    private val mapper: VerseDomainToUiMapper<VerseUi>,
     resourceProvider: ResourceProvider
-) : VersesDomainToUiMapper(resourceProvider) {
-    override fun map(data: List<VerseDomain>) = VersesUi(data.map { verse ->
+) : VersesDomainToUiMapper<VersesUi>(resourceProvider) {
+    override fun map(data: List<VerseDomain>) = VersesUi.Base(data.map { verse ->
         verse.map(mapper)
     })
 
-
-    override fun map(errorType: ErrorType) = VersesUi(listOf(VerseUi.Fail(errorMessage(errorType))))
+    override fun map(errorType: ErrorType) =
+        VersesUi.Base(listOf(VerseUi.Fail(errorMessage(errorType))))
 }

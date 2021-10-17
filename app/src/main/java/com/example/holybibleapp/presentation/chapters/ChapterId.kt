@@ -2,14 +2,14 @@ package com.example.holybibleapp.presentation.chapters
 
 import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.core.DbWrapper
+import com.example.holybibleapp.core.Limits
 import com.example.holybibleapp.data.chapters.ChapterIdToUiMapper
 import com.example.holybibleapp.data.chapters.cache.ChapterDb
+import io.realm.RealmObject
 
-interface ChapterId : Abstract.Object<ChapterUi, ChapterIdToUiMapper> {
-    fun min(): Int
-    fun max(): Int
-
-    fun mapToDb(db: DbWrapper<ChapterDb>): ChapterDb
+interface ChapterId : Limits {
+    fun <T> map(mapper: ChapterIdToUiMapper<T>): T
+    fun <T : RealmObject> map(db: DbWrapper<T>): T
 
     class Base : ChapterId {
         private val bookId: Int
@@ -34,9 +34,8 @@ interface ChapterId : Abstract.Object<ChapterUi, ChapterIdToUiMapper> {
         override fun min() = MULTIPLY * bookId
         override fun max() = MULTIPLY * (bookId + 1)
 
-        override fun mapToDb(db: DbWrapper<ChapterDb>) = db.createObject(chapterIdGenerated)
-        override fun map(mapper: ChapterIdToUiMapper) =
-            mapper.map(chapterIdGenerated, chapterIdReal)
+        override fun <T : RealmObject> map(db: DbWrapper<T>) = db.createObject(chapterIdGenerated)
+        override fun <T> map(mapper: ChapterIdToUiMapper<T>) = mapper.map(chapterIdReal)
 
         private companion object {
             const val MULTIPLY = 1000

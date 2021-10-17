@@ -1,6 +1,5 @@
 package com.example.holybibleapp.presentation.verses
 
-import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.core.ComparableTextMapper
 import com.example.holybibleapp.core.TextMapper
 

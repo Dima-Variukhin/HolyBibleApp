@@ -1,10 +1,11 @@
 package com.example.holybibleapp.presentation.chapters
 
 import com.example.holybibleapp.core.ComparableTextMapper
+import com.example.holybibleapp.core.Open
 import com.example.holybibleapp.core.TextMapper
 
-sealed class ChapterUi : ComparableTextMapper<ChapterUi> {
-    open fun open(show: Show) = Unit
+sealed class ChapterUi : ComparableTextMapper<ChapterUi>, Open<Show> {
+    override fun open(show: Show) = Unit
 
     class Base(
         private val id: Int,

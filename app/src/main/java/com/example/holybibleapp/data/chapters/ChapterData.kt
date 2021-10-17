@@ -6,14 +6,16 @@ import com.example.holybibleapp.data.chapters.cache.ChapterDataToDbMapper
 import com.example.holybibleapp.data.chapters.cache.ChapterDb
 import com.example.holybibleapp.domain.chapters.ChapterDomain
 import com.example.holybibleapp.presentation.chapters.ChapterId
+import io.realm.RealmObject
 
-class ChapterData(private val chapterId: ChapterId) :
-    Abstract.Object.ToDb<ChapterDb, ChapterDataToDbMapper>,
-    Abstract.Object<ChapterDomain, ChapterDataToDomainMapper> {
+interface ChapterData : Abstract.DataObject {
+    fun <T : RealmObject> map(mapper: ChapterDataToDbMapper<T>, db: DbWrapper<T>): T
+    fun <T> map(mapper: ChapterDataToDomainMapper<T>): T
 
-    override fun map(mapper: ChapterDataToDomainMapper) = mapper.map(chapterId)
+    data class Base(private val chapterId: ChapterId) : ChapterData {
+        override fun <T : RealmObject> map(mapper: ChapterDataToDbMapper<T>, db: DbWrapper<T>) =
+            mapper.mapTo(chapterId, db)
 
-    override fun mapBy(mapper: ChapterDataToDbMapper, db: DbWrapper<ChapterDb>) =
-        mapper.mapToDb(chapterId, db)
-
+        override fun <T> map(mapper: ChapterDataToDomainMapper<T>) = mapper.map(chapterId)
+    }
 }

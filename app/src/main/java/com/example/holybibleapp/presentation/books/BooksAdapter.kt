@@ -9,7 +9,7 @@ import com.example.holybibleapp.core.*
 class BooksAdapter(
     private val retry: Retry,
     private val collapseListener: CollapseListener,
-    private val bookListener: BookListener
+    private val bookListener: ClickListener<BookUi>
 ) : BaseAdapter<BookUi, BaseViewHolder<BookUi>>() {
 
     override fun getItemViewType(position: Int) = when (list[position]) {
@@ -34,11 +34,11 @@ class BooksAdapter(
             override fun bind(item: BookUi) = item.map(name)
         }
 
-        class Base(view: View, private val bookListener: BookListener) : Info(view) {
+        class Base(view: View, private val bookListener: ClickListener<BookUi>) : Info(view) {
             override fun bind(item: BookUi) {
                 super.bind(item)
                 name.setOnClickListener {
-                    item.open(bookListener)
+                    bookListener.click(item)
                 }
             }
         }
@@ -58,8 +58,7 @@ class BooksAdapter(
     interface CollapseListener {
         fun collapseOrExpand(id: Int)
     }
-
-    interface BookListener {
-        fun showBook(id: Int, name: String)
-    }
+}
+interface ShowBook {
+    fun show(id: Int, name: String)
 }

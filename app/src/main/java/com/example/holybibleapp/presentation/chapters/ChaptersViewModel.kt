@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.holybibleapp.NavigationCommunication
 import com.example.holybibleapp.core.Read
+import com.example.holybibleapp.core.CacheDataSource
 import com.example.holybibleapp.core.Save
 import com.example.holybibleapp.domain.chapters.ChaptersDomainToUiMapper
 import com.example.holybibleapp.domain.chapters.ChaptersInteractor
@@ -17,7 +18,7 @@ import kotlinx.coroutines.withContext
 class ChaptersViewModel(
     private val chaptersInteractor: ChaptersInteractor,
     private val chaptersCommunication: ChaptersCommunication,
-    private val chaptersMapper: ChaptersDomainToUiMapper,
+    private val chaptersMapper: ChaptersDomainToUiMapper<ChaptersUi>,
     private val navigator: ChaptersNavigator,
     private val bookCache: Read<Pair<Int, String>>,
     private val chapterCache: Save<Int>,
@@ -50,6 +51,7 @@ class ChaptersViewModel(
     }
 
     fun getBookName() = bookCache.read().second
+
     override fun show(id: Int) {
         chapterCache.save(id)
         navigator.nextScreen(navigationCommunication)

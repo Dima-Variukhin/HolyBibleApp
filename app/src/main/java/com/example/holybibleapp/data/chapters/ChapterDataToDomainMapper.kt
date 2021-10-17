@@ -4,4 +4,4 @@ import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.domain.chapters.ChapterDomain
 import com.example.holybibleapp.presentation.chapters.ChapterId
 
-interface ChapterDataToDomainMapper : Abstract.Mapper.Data<ChapterId, ChapterDomain>
+interface ChapterDataToDomainMapper<T> : Abstract.Mapper.Data<ChapterId, T>

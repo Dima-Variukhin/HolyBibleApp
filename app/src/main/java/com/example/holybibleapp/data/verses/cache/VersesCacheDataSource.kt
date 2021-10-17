@@ -2,24 +2,23 @@ package com.example.holybibleapp.data.verses.cache
 
 import com.example.holybibleapp.core.DbWrapper
 import com.example.holybibleapp.core.RealmProvider
-import com.example.holybibleapp.core.Save
+import com.example.holybibleapp.core.CacheDataSource
+import com.example.holybibleapp.core.Limits
 import com.example.holybibleapp.data.verses.VerseData
 import io.realm.Realm
 
-interface VersesCacheDataSource : Save<List<VerseData>> {
+interface VersesCacheDataSource : CacheDataSource<VerseData> {
 
-    suspend fun fetchVerses(bookId: Int, chapterId: Int): List<VerseDb>
+    fun fetchVerses(limits: Limits): List<VerseDb>
 
     class Base(
         private val realmProvider: RealmProvider,
-        private val mapper: VerseDataToDbMapper
+        private val mapper: VerseDataToDbMapper<VerseDb>
     ) : VersesCacheDataSource {
-        override suspend fun fetchVerses(bookId: Int, chapterId: Int): List<VerseDb> {
-            val min = 1_000_000 * bookId + 100 * chapterId
-            val max = 1_000_000 * bookId + 1000 * (chapterId + 1)
+        override fun fetchVerses(limits: Limits): List<VerseDb> {
             realmProvider.provide().use { realm ->
                 val verses = realm.where(VerseDb::class.java)
-                    .between("id", min, max)
+                    .between("id", limits.min(), limits.max())
                     .findAll()
                 return realm.copyFromRealm(verses)
             }
@@ -29,7 +28,7 @@ interface VersesCacheDataSource : Save<List<VerseData>> {
             realmProvider.provide().use { realm ->
                 realm.executeTransaction {
                     data.forEach { verse ->
-                        verse.mapBy(mapper, VerseDbWrapper(realm))
+                        verse.map(mapper, VerseDbWrapper(realm))
                     }
                 }
             }

@@ -4,5 +4,5 @@ import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.core.ResourceProvider
 import com.example.holybibleapp.presentation.verses.VersesUi
 
-abstract class VersesDomainToUiMapper(resourceProvider: ResourceProvider) :
-    Abstract.Mapper.DomainToUi.Base<List<VerseDomain>, VersesUi>(resourceProvider)
+abstract class VersesDomainToUiMapper<T>(resourceProvider: ResourceProvider) :
+    Abstract.Mapper.DomainToUi.Base<List<VerseDomain>, T>(resourceProvider)

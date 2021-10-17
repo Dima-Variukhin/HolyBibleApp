@@ -9,8 +9,8 @@ interface ChaptersInteractor {
 
     class Base(
         private val repository: ChaptersRepository,
-        private val mapper: ChaptersDataToDomainMapper
+        private val mapper: ChaptersDataToDomainMapper<ChaptersDomain>
     ) : ChaptersInteractor {
-        override suspend fun showChapters() = repository.fetchChapters().map(mapper)
+        override suspend fun showChapters() = repository.fetchData().map(mapper)
     }
 }

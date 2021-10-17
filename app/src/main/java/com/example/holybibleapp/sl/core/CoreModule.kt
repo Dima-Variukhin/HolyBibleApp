@@ -7,7 +7,7 @@ import com.example.holybibleapp.core.RealmProvider
 import com.example.holybibleapp.core.ResourceProvider
 import com.example.holybibleapp.presentation.Navigator
 import com.example.holybibleapp.presentation.books.BookCache
-import com.example.holybibleapp.presentation.verses.ChapterCache
+import com.example.holybibleapp.presentation.chapters.ChapterCache
 import com.google.gson.Gson
 import io.realm.Realm
 import okhttp3.OkHttpClient
@@ -44,7 +44,7 @@ class CoreModule : BaseModule<MainViewModel> {
             .client(client)
             .build()
         gson = Gson()
-        realmProvider = RealmProvider.Base()
+        realmProvider = RealmProvider.Base(context)
         resourceProvider = ResourceProvider.Base(context)
         bookCache = BookCache.Base(resourceProvider)
         chapterCache = ChapterCache.Base(resourceProvider)
