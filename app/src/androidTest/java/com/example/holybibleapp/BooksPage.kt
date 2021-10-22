@@ -1,9 +1,11 @@
 package com.example.holybibleapp
 
 class BooksPage {
+    val title = "Библия"
 
-    val oldTestament = "Old Testament"
-    val firstBookOldTestament = "Genesis"
-    val newTestament = "New Testament"
-    val firstBookNewTestament = "Matthew"
+    val oldTestamentPosition = 0
+    val newTestamentPositionIfFirstExpanded = 3
+    val newTestamentPositionIfFirstCollapsed = 1
+    val firstBookOldTestamentEnglish = "Genesis"
+    val firstBookNewTestamentEnglish = "Matthew"
 }

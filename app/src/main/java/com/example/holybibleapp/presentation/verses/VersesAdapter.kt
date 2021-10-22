@@ -17,7 +17,7 @@ class VersesAdapter(private val retry: Retry) : BaseAdapter<VerseUi, BaseViewHol
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        0 -> VerseViewHolder.Base(R.layout.text_layout.makeView(parent))
+        0 -> VerseViewHolder.Base(R.layout.verses_layout.makeView(parent))
         1 -> BaseViewHolder.Fail(R.layout.fail_fullscreen.makeView(parent), retry)
         else -> BaseViewHolder.FullScreenProgress(R.layout.progress_fullscreen.makeView(parent))
     }

@@ -5,8 +5,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.holybibleapp.core.Read
+import com.example.holybibleapp.core.ResourceProvider
 import com.example.holybibleapp.domain.verses.VersesDomainToUiMapper
 import com.example.holybibleapp.domain.verses.VersesInteractor
+import com.example.holybibleapp.presentation.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,20 +18,15 @@ class VersesViewModel(
     private val interactor: VersesInteractor,
     private val communication: VersesCommunication,
     private val mapper: VersesDomainToUiMapper<VersesUi>,
-    private val bookCache: Read<Pair<Int, String>>,
-    private val chapterCache: Read<Int>
-) : ViewModel() {
-    fun getTitle(): String {
-        return "${bookCache.read().second} CH. ${chapterCache.read()}"
-    }
-
+    resourceProvider: ResourceProvider
+) : BaseViewModel(resourceProvider) {
     fun init() {
         navigator.saveVersesScreen()
         fetchVerses()
     }
 
     fun fetchVerses() {
-        communication.map(listOf(VerseUi.Progress))
+        communication.map(Pair(listOf(VerseUi.Progress), getTitle()))
         viewModelScope.launch(Dispatchers.IO) {
             val list = interactor.fetchVerses()
             val uiList = list.map(mapper)
@@ -39,7 +36,7 @@ class VersesViewModel(
         }
     }
 
-    fun observeVerses(owner: LifecycleOwner, observer: Observer<List<VerseUi>>) {
+    fun observeVerses(owner: LifecycleOwner, observer: Observer<Pair<List<VerseUi>, String>>) {
         communication.observe(owner, observer)
     }
 }

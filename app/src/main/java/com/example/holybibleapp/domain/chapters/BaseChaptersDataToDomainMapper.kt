@@ -9,7 +9,8 @@ class BaseChaptersDataToDomainMapper(private val mapper: ChapterDataToDomainMapp
     ChaptersDataToDomainMapper<ChaptersDomain>() {
     override fun map(e: Exception) = ChaptersDomain.Fail(errorType(e))
 
-    override fun map(data: List<ChapterData>) = ChaptersDomain.Success(data.map { chapterData ->
-        chapterData.map(mapper)
-    })
+    override fun map(data: Pair<List<ChapterData>, String>) =
+        ChaptersDomain.Success(data.first.map { chapterData ->
+            chapterData.map(mapper)
+        })
 }

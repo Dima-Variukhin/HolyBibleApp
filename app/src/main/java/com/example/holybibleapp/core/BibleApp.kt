@@ -3,6 +3,7 @@ package com.example.holybibleapp.core
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.example.holybibleapp.BuildConfig
 import com.example.holybibleapp.BuildConfig.USE_MOCKS
 import com.example.holybibleapp.NavigationCommunication
@@ -40,6 +41,9 @@ import com.example.holybibleapp.sl.books.BooksModule
 import com.example.holybibleapp.sl.chapters.ChaptersFactory
 import com.example.holybibleapp.sl.chapters.ChaptersModule
 import com.example.holybibleapp.sl.core.CoreModule
+import com.example.holybibleapp.sl.core.ViewModelsFactory
+import com.example.holybibleapp.sl.languages.LanguagesFactory
+import com.example.holybibleapp.sl.languages.LanguagesModule
 import com.example.holybibleapp.sl.verses.VersesFactory
 import com.example.holybibleapp.sl.verses.VersesModule
 import com.google.gson.Gson
@@ -49,17 +53,27 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
 class BibleApp : Application() {
-    private val coreModule = CoreModule()
+    private val coreModule = CoreModule(USE_MOCKS)
+
+    private val booksModule by lazy {
+        BooksModule(coreModule, USE_MOCKS)
+    }
+
+    val factory by lazy {
+        ViewModelsFactory(
+            coreModule,
+            BooksModule(coreModule, USE_MOCKS),
+            ChaptersModule(coreModule, USE_MOCKS),
+            VersesModule(coreModule, USE_MOCKS),
+            LanguagesModule(coreModule)
+        )
+    }
 
     override fun onCreate() {
         super.onCreate()
         coreModule.init(this)
     }
 
-    fun getMainViewModel() = coreModule.getViewModel()
-    fun chaptersFactory() = ChaptersFactory(ChaptersModule(coreModule))
-    fun booksFactory() = BooksFactory(BooksModule(coreModule, false))
-
-    //фабрика которая создает виьюмодель, а в модуле описываем нужные методы
-    fun versesFactory() = VersesFactory(VersesModule(coreModule))
+    fun <T : ViewModel> getViewModel(modelClass: Class<T>, owner: ViewModelStoreOwner): T =
+        ViewModelProvider(owner, factory).get(modelClass)
 }

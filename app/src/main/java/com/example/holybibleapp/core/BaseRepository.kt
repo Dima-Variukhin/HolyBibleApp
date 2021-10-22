@@ -3,7 +3,7 @@ package com.example.holybibleapp.core
 import io.realm.RealmObject
 import java.lang.Exception
 
-interface Repository<E : Abstract.DataObject> {
+interface BaseRepository<E : Abstract.DataObject> {
     suspend fun fetchData(): E
 
     abstract class Base<T : RealmObject,
@@ -13,7 +13,7 @@ interface Repository<E : Abstract.DataObject> {
         private val cacheDataSource: CacheDataSource<D>,
         private val cloudMapper: Abstract.Mapper.Data<List<C>, List<D>>,
         private val cacheMapper: Abstract.Mapper.Data<List<T>, List<D>>
-    ) : Repository<E> {
+    ) : BaseRepository<E> {
 
         override suspend fun fetchData() = try {
             val cachedList = getCachedDataList()
@@ -35,5 +35,3 @@ interface Repository<E : Abstract.DataObject> {
         protected abstract fun returnFail(e: Exception): E
     }
 }
-
-interface CacheDataSource<D : Abstract.DataObject> : Save<List<D>>

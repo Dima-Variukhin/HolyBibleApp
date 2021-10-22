@@ -1,5 +1,5 @@
 package com.example.holybibleapp.core
 
-interface Open<T> {
-    fun open(show: T)
+interface Open {
+    fun open(show: Show)
 }

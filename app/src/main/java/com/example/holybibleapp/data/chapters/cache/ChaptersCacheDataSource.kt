@@ -8,7 +8,7 @@ import com.example.holybibleapp.data.chapters.ChapterData
 import com.example.holybibleapp.presentation.chapters.ChapterId
 import io.realm.Realm
 
-interface ChaptersCacheDataSource : CacheDataSource<ChapterData> { //todo ccds
+interface ChaptersCacheDataSource : CacheDataSource<ChapterData> {
     fun fetchChapters(limits: Limits): List<ChapterDb>
 
     class Base(

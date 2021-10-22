@@ -5,6 +5,6 @@ import com.example.holybibleapp.core.Communication
 import com.example.holybibleapp.presentation.chapters.ChapterUi
 import com.example.holybibleapp.presentation.chapters.ChaptersCommunication
 
-interface VersesCommunication : Communication<List<VerseUi>>, Abstract.Mapper {
-    class Base : Communication.Base<List<VerseUi>>(), VersesCommunication
+interface VersesCommunication : Communication<Pair<List<VerseUi>, String>>, Abstract.Mapper {
+    class Base : Communication.Base<Pair<List<VerseUi>, String>>(), VersesCommunication
 }

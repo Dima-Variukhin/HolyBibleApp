@@ -1,10 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">HolyBibleApp</string>
-    <string name="service_unavailable_message">Service unavailable</string>
-    <string name="no_connection_message">No connection</string>
-    <string name="something_went_wrong">Something went wrong</string>
-    <string name="try_again">Try again</string>
-    <string name="new_testament">New Testament</string>
-    <string name="old_testament">Old Testament</string>
-    <string name="chapter_number">Chapter %d</string>
+    <string name="app_name" translatable="false">HolyBibleApp</string>
+    <string name="service_unavailable_message" translatable="false">Service unavailable</string>
+    <string name="no_connection_message" translatable="false">No connection</string>
+    <string name="something_went_wrong" translatable="false">Something went wrong</string>
+    <string name="try_again" translatable="false">Try again</string>
+    <string name="new_testament" translatable="false">New Testament</string>
+    <string name="old_testament" translatable="false">Old Testament</string>
+    <string name="english">English</string>
+    <string name="russian">Russian</string>
+    <string name="chapter_number" translatable="false">Chapter %d</string>
+    <string name="choose_language">Choose language</string>
+    <string name="book_and_chapter" translatable="false">%s Ch.%d</string>
+    <string name="loading" translatable="false">Loading…</string>
 </resources>

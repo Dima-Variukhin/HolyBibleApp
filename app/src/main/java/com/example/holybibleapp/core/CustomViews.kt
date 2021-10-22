@@ -50,5 +50,19 @@ class CollapseView : AppCompatImageView, CollapseMapper {
     }
 }
 
+class CustomRadioButton : androidx.appcompat.widget.AppCompatRadioButton, TextMapper {
+    //region constructors
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
+    //endregion
+
+    override fun map(data: String) = setText(data)
+}
+
 interface TextMapper : Abstract.Mapper.Data<String, Unit>
 interface CollapseMapper : Abstract.Mapper.Data<Boolean, Unit>

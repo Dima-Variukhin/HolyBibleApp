@@ -9,12 +9,8 @@ import com.example.holybibleapp.core.ClickListener
 import com.example.holybibleapp.core.Retry
 import com.example.holybibleapp.presentation.BaseFragment
 
-class ChaptersFragment : BaseFragment() {
-    private val viewModelFactory by lazy {
-        (requireActivity().application as BibleApp).chaptersFactory()
-    }
-    private val viewModel by viewModels<ChaptersViewModel> { viewModelFactory }
-
+class ChaptersFragment : BaseFragment<ChaptersViewModel>() {
+    override fun viewModelClass() = ChaptersViewModel::class.java
     override fun getTitle() = viewModel.getBookName()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,7 +23,10 @@ class ChaptersFragment : BaseFragment() {
             object : ClickListener<ChapterUi> {
                 override fun click(item: ChapterUi) = item.open(viewModel)
             })
-        viewModel.observeChapters(this) { adapter.update(it) }
+        viewModel.observeChapters(this) { (chapters, title) ->
+            adapter.update(chapters)
+            updateTitle(title)
+        }
         recyclerView?.adapter = adapter
 
         viewModel.init()

@@ -6,15 +6,10 @@ import androidx.fragment.app.viewModels
 import com.example.holybibleapp.core.BibleApp
 import com.example.holybibleapp.core.Retry
 import com.example.holybibleapp.presentation.BaseFragment
-import com.example.holybibleapp.presentation.chapters.ChaptersAdapter
 
-class VersesFragment : BaseFragment() {
-    private val viewModelFactory by lazy {
-        (requireActivity().application as BibleApp).versesFactory()
-    }
-    private val viewModel by viewModels<VersesViewModel> { viewModelFactory }
+class VersesFragment : BaseFragment<VersesViewModel>() {
 
-    override fun getTitle() = viewModel.getTitle()
+    override fun viewModelClass() = VersesViewModel::class.java
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,8 +18,9 @@ class VersesFragment : BaseFragment() {
             override fun tryAgain() = viewModel.fetchVerses()
         })
 
-        viewModel.observeVerses(this) {
-            adapter.update(it)
+        viewModel.observeVerses(this) { (verses, title) ->
+            adapter.update(verses)
+            updateTitle(title)
         }
         recyclerView?.adapter = adapter
 

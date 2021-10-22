@@ -6,10 +6,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.holybibleapp.NavigationCommunication
+import com.example.holybibleapp.R
 import com.example.holybibleapp.core.CacheDataSource
+import com.example.holybibleapp.core.ResourceProvider
 import com.example.holybibleapp.core.Save
+import com.example.holybibleapp.core.Show
 import com.example.holybibleapp.domain.books.BooksDomainToUiMapper
 import com.example.holybibleapp.domain.books.BooksInteractor
+import com.example.holybibleapp.presentation.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,13 +23,22 @@ class BooksViewModel(
     private val mapper: BooksDomainToUiMapper<BooksUi>,
     private val communication: BooksCommunication,
     private val uiDataCache: UiDataCache,
-    private val bookIdCache: Save<Pair<Int, String>>,
+    private val bookIdCache: Save<Int>,
     private val navigator: BooksNavigator,
-    private val navigationCommunication: NavigationCommunication
-) : ViewModel(), ShowBook { //todo interface
+    private val navigationCommunication: NavigationCommunication,
+    resourceProvider: ResourceProvider
+) : BaseViewModel(resourceProvider), Show {
 
+    override fun getTitleResId() = R.string.app_name
+
+    //проверка пересоздания инстанса вьюмодельки
     init {
-        Log.d("jsc91", "books newInstance")
+        Log.d("jsc91", "booksViewModel()${hashCode()}")
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("jsc91", "booksViewModel cleared()")
     }
 
     fun fetchBooks() {
@@ -39,7 +52,7 @@ class BooksViewModel(
         }
     }
 
-    fun observer(owner: LifecycleOwner, observer: Observer<List<BookUi>>) {
+    fun observe(owner: LifecycleOwner, observer: Observer<List<BookUi>>) {
         communication.observe(owner, observer)
     }
 
@@ -47,8 +60,8 @@ class BooksViewModel(
         communication.map(uiDataCache.changeState(id))
     }
 
-    override fun show(id: Int, name: String) {
-        bookIdCache.save(Pair(id, name))
+    override fun open(id: Int) {
+        bookIdCache.save(id)
         navigator.nextScreen(navigationCommunication)
     }
 
@@ -58,10 +71,4 @@ class BooksViewModel(
     }
 
     fun save() = uiDataCache.saveState()
-
-    override fun onCleared() {
-        uiDataCache.saveState()
-        Log.d("jsc91", "books cleared")
-        super.onCleared()
-    }
 }

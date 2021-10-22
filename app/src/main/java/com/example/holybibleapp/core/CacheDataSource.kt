@@ -1,5 +1,3 @@
 package com.example.holybibleapp.core
 
-interface Save<T> {
-    fun save(data: T)
-}
+interface CacheDataSource<D : Abstract.DataObject> : Save<List<D>>

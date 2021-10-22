@@ -5,4 +5,4 @@ import com.example.holybibleapp.domain.chapters.ChaptersDomain
 import java.lang.Exception
 
 abstract class ChaptersDataToDomainMapper<T> :
-    Abstract.Mapper.DataToDomain.Base<List<ChapterData>, T>()
+    Abstract.Mapper.DataToDomain.Base<Pair<List<ChapterData>, String>, T>()
