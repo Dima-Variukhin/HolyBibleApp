@@ -8,12 +8,12 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 interface VersesCloudDataSource {
-    suspend fun fetchVerses(bookId: Int, chapterId: Int): List<VerseCloud.Base>
+    suspend fun fetchVerses(bookId: Int, chapterId: Int): List<VerseCloud>
 
     abstract class Abstract(
         private val gson: Gson
     ) : VersesCloudDataSource {
-        override suspend fun fetchVerses(bookId: Int, chapterId: Int): List<VerseCloud.Base> =
+        override suspend fun fetchVerses(bookId: Int, chapterId: Int): List<VerseCloud> =
             gson.fromJson(
                 getDataAsString(bookId, chapterId),
                 object : TypeToken<List<VerseCloud.Base>>() {}.type
@@ -48,19 +48,18 @@ interface VersesCloudDataSource {
         private val resourceReader: RawResourceReader,
         private val gson: Gson
     ) : VersesCloudDataSource {
-        override suspend fun fetchVerses(bookId: Int, chapterId: Int): List<VerseCloud.Base> {
+        override suspend fun fetchVerses(bookId: Int, chapterId: Int): List<VerseCloud> {
             val text = resourceReader.readText(R.raw.synodal)
             val response = gson.fromJson<RussianTranslation>(
                 text,
                 object : TypeToken<RussianTranslation>() {}.type
             )
-
             return response.contentAsList().find {
                 it.matches(bookId)
             }!!.contentAsList().find {
                 it.matches(chapterId)
             }!!.contentAsList().map { (id, verse) ->
-                verse.toVerseCloud(bookId, chapterId, id)
+                verse.map(VerseToWrapperMapper.Base(bookId, chapterId, id))
             }
         }
     }

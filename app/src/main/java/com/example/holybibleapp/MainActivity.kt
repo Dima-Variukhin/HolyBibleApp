@@ -1,24 +1,21 @@
 package com.example.holybibleapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.holybibleapp.core.BibleApp
+import com.example.holybibleapp.core.TextMapper
 import com.example.holybibleapp.presentation.BaseFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TextMapper {
     private lateinit var viewModel: MainViewModel
 
     fun <T : ViewModel> getViewModel(model: Class<T>, owner: ViewModelStoreOwner) =
         (application as BibleApp).getViewModel(model, owner)
-
-    fun factory() = (application as BibleApp).factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (item.itemId == R.id.languages) {
-            navigate(viewModel.getLanguagesScreen())
+            viewModel.showLanguagesScreen()
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -62,6 +59,10 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (viewModel.navigateBack())
             super.onBackPressed()
+    }
+
+    override fun map(data: String) {
+        title = data
     }
 }
 

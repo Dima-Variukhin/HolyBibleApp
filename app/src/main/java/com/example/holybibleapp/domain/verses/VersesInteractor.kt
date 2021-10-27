@@ -1,12 +1,10 @@
 package com.example.holybibleapp.domain.verses
 
-import com.example.holybibleapp.R
 import com.example.holybibleapp.core.Read
 import com.example.holybibleapp.core.ResourceProvider
 import com.example.holybibleapp.data.books.BooksRepository
 import com.example.holybibleapp.data.verses.VersesDataToDomainMapper
 import com.example.holybibleapp.data.verses.VersesRepository
-import com.example.holybibleapp.presentation.books.BookCache
 
 interface VersesInteractor {
     suspend fun fetchVerses(): VersesDomain
@@ -23,7 +21,6 @@ interface VersesInteractor {
             booksRepository.fetchData(),
             bookIdContainer,
             chapterNumber,
-            resourceProvider
         ).map(mapper)
     }
 }

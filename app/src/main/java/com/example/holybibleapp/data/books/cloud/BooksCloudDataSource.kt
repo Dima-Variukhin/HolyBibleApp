@@ -11,7 +11,7 @@ interface BooksCloudDataSource {
     suspend fun fetchBooks(): List<BookCloud>
 
     abstract class Abstract(private val gson: Gson) : BooksCloudDataSource {
-        override suspend fun fetchBooks(): List<BookCloud.Base> = gson.fromJson(
+        override suspend fun fetchBooks(): List<BookCloud> = gson.fromJson(
             getDataAsString(),
             object : TypeToken<List<BookCloud.Base>>() {}.type
         )
@@ -24,25 +24,25 @@ interface BooksCloudDataSource {
         private val englishCloudDataSource: BooksCloudDataSource,
         private val russianDataSource: BooksCloudDataSource
     ) : BooksCloudDataSource {
-        override suspend fun fetchBooks() = if (languages.isChosenRussian())
-            russianDataSource.fetchBooks()
-        else
-            englishCloudDataSource.fetchBooks()
+        override suspend fun fetchBooks() = (
+                if (languages.isChosenRussian())
+                    russianDataSource
+                else
+                    englishCloudDataSource
+                ).fetchBooks()
     }
 
     class Russian(
         private val resourceReader: RawResourceReader,
         private val gson: Gson
     ) : BooksCloudDataSource {
-        override suspend fun fetchBooks(): List<BookCloud.Base> {
+        override suspend fun fetchBooks(): List<BookCloud> {
             val text = resourceReader.readText(R.raw.synodal)
             val translation = gson.fromJson<RussianTranslation>(
                 text,
                 object : TypeToken<RussianTranslation>() {}.type
             )
-            return translation.contentAsList().map {
-                it.toBookCloud()
-            }
+            return translation.contentAsList()
         }
 
     }

@@ -59,6 +59,4 @@ class BooksAdapter(
         fun collapseOrExpand(id: Int)
     }
 }
-interface ShowBook {
-    fun show(id: Int, name: String)
-}
+

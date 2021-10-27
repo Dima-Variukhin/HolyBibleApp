@@ -24,7 +24,6 @@ class ChaptersModule(
     private val coreModule: CoreModule,
     private val booksModule: BooksModule,
     private val useMocks: Boolean
-
 ) : BaseModule<ChaptersViewModel> {
     override fun getViewModel() = ChaptersViewModel(
         getChaptersInteractor(),

@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.example.holybibleapp.MainActivity
 import com.example.holybibleapp.R
 import com.example.holybibleapp.core.Matcher
+import com.example.holybibleapp.core.TextMapper
 
 abstract class BaseFragment<T : BaseViewModel> : Fragment(), Matcher<String> {
     protected lateinit var viewModel: T
-    protected var recyclerView: RecyclerView? = null
+    private var recyclerView: RecyclerView? = null
     protected abstract fun viewModelClass(): Class<T>
     protected open fun showBackIcon() = true
 
@@ -44,7 +43,7 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment(), Matcher<String> {
         (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(
             showBackIcon()
         )
-        updateTitle(viewModel.getTitle())
+        title().map(viewModel.getTitle())
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView?.addItemDecoration(
             DividerItemDecoration(
@@ -54,5 +53,10 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment(), Matcher<String> {
         )
     }
 
-    protected fun updateTitle(title: String) = requireActivity().setTitle(title)
+    protected fun title() = requireActivity() as TextMapper
+    protected fun setAdapter(adapter: RecyclerView.Adapter<*>) {
+        recyclerView?.adapter = adapter
+    }
+
+
 }

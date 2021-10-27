@@ -1,8 +1,8 @@
 package com.example.holybibleapp.domain.verses
 
 import com.example.holybibleapp.core.Abstract
+import com.example.holybibleapp.core.BuildString
 import com.example.holybibleapp.core.ResourceProvider
-import com.example.holybibleapp.presentation.verses.VersesUi
 
 abstract class VersesDomainToUiMapper<T>(resourceProvider: ResourceProvider) :
-    Abstract.Mapper.DomainToUi.Base<Pair<List<VerseDomain>, String>, T>(resourceProvider)
+    Abstract.Mapper.DomainToUi.Base<Triple<List<VerseDomain>, BuildString, Int>, T>(resourceProvider)

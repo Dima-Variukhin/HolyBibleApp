@@ -3,20 +3,19 @@ package com.example.holybibleapp.core
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.holybibleapp.R
 
 abstract class BaseAdapter<E : ComparableTextMapper<E>, T : BaseViewHolder<E>> :
-    RecyclerView.Adapter<T>() {
+    RecyclerView.Adapter<T>(), ListMapper<E> {
     protected val list = ArrayList<E>()
 
-    fun update(new: List<E>) {
-        val diffCallback = DiffUtilCallback(list, new)
+    override fun map(data: List<E>) {
+        val diffCallback = DiffUtilCallback(list, data)
         val result = DiffUtil.calculateDiff(diffCallback)
         list.clear()
-        list.addAll(new)
+        list.addAll(data)
         result.dispatchUpdatesTo(this)
     }
 
@@ -26,6 +25,7 @@ abstract class BaseAdapter<E : ComparableTextMapper<E>, T : BaseViewHolder<E>> :
 
     protected fun Int.makeView(parent: ViewGroup) =
         LayoutInflater.from(parent.context).inflate(this, parent, false)
+
 }
 
 interface ComparableTextMapper<T : ComparableTextMapper<T>> : Abstract.Object<Unit, TextMapper>,
@@ -43,7 +43,7 @@ abstract class BaseViewHolder<E : ComparableTextMapper<E>>(view: View) :
         private val retry: Retry
     ) : BaseViewHolder<E>(view) {
         private val message = itemView.findViewById<CustomTextView>(R.id.messageTextView)
-        private val button = itemView.findViewById<Button>(R.id.tryAgainButton)
+        private val button = itemView.findViewById<View>(R.id.tryAgainButton)
         override fun bind(item: E) {
             item.map(message)
             button.setOnClickListener {

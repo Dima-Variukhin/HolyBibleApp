@@ -1,11 +1,17 @@
 package com.example.holybibleapp.presentation.verses
 
+import com.example.holybibleapp.core.ListMapper
+import com.example.holybibleapp.core.TextMapper
+
 sealed class VersesUi {
-    abstract fun map(mapper: VersesCommunication)
+    abstract fun map(list: ListMapper<VerseUi>, text: TextMapper)
     class Base(
-        private val list: List<VerseUi>,
+        private val data: List<VerseUi>,
         private val title: String
     ) : VersesUi() {
-        override fun map(mapper: VersesCommunication) = mapper.map(Pair(list, title))
+        override fun map(list: ListMapper<VerseUi>, text: TextMapper) {
+            list.map(data)
+            text.map(title)
+        }
     }
 }

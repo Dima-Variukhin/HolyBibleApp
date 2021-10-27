@@ -9,6 +9,7 @@ class ChaptersAdapter(
     private val retry: Retry,
     private val clickListener: ClickListener<ChapterUi>
 ) : BaseAdapter<ChapterUi, BaseViewHolder<ChapterUi>>() {
+
     override fun getItemViewType(position: Int) = when (list[position]) {
         is ChapterUi.Base -> 0
         is ChapterUi.Fail -> 1

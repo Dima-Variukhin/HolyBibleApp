@@ -37,7 +37,7 @@ class BooksModule(
     fun repository(): BooksRepository {
         if (repository == null)
             repository = getBooksRepository()
-        return repository()!!
+        return repository!!
     }
 
     private fun getBooksInteractor() = BooksInteractor.Base(

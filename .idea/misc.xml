@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/english_anim_flag.xml" value="0.178" />
         <entry key="app/src/main/res/drawable/english_anim_start.xml" value="0.178" />
         <entry key="app/src/main/res/drawable/english_flag.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/ic_expand_less_24.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/ic_expand_more_24.xml" value="0.1415" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1415" />
         <entry key="app/src/main/res/drawable/outline_expand_less_24.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/outline_expand_more_24.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/outline_settings_24.xml" value="0.178" />
@@ -20,6 +24,7 @@
         <entry key="app/src/main/res/layout/text_layout.xml" value="0.13723511604439959" />
         <entry key="app/src/main/res/layout/verses_layout.xml" value="0.21784420289855072" />
         <entry key="app/src/main/res/menu/main.xml" value="0.2625" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1415" />
       </map>
     </option>
   </component>

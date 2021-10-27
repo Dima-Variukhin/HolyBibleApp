@@ -2,8 +2,6 @@ package com.example.holybibleapp.presentation.verses
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
-import com.example.holybibleapp.core.BibleApp
 import com.example.holybibleapp.core.Retry
 import com.example.holybibleapp.presentation.BaseFragment
 
@@ -18,11 +16,10 @@ class VersesFragment : BaseFragment<VersesViewModel>() {
             override fun tryAgain() = viewModel.fetchVerses()
         })
 
-        viewModel.observeVerses(this) { (verses, title) ->
-            adapter.update(verses)
-            updateTitle(title)
+        viewModel.observeVerses(this) { ui ->
+            ui.map(adapter, title())
         }
-        recyclerView?.adapter = adapter
+        setAdapter(adapter)
 
         viewModel.init()
     }

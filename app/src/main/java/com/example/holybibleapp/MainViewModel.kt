@@ -26,6 +26,6 @@ class MainViewModel(
     }
 
     fun getFragment(id: Int) = navigator.getFragment(id)
-    fun getLanguagesScreen() = navigator.showLanguagesFragment(communication)
+    fun showLanguagesScreen() = navigator.showLanguagesFragment(communication)
 }
 

@@ -1,17 +1,13 @@
 package com.example.holybibleapp.presentation.chapters
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.fragment.app.viewModels
-import com.example.holybibleapp.core.BibleApp
 import com.example.holybibleapp.core.ClickListener
 import com.example.holybibleapp.core.Retry
 import com.example.holybibleapp.presentation.BaseFragment
 
 class ChaptersFragment : BaseFragment<ChaptersViewModel>() {
     override fun viewModelClass() = ChaptersViewModel::class.java
-    override fun getTitle() = viewModel.getBookName()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,11 +19,10 @@ class ChaptersFragment : BaseFragment<ChaptersViewModel>() {
             object : ClickListener<ChapterUi> {
                 override fun click(item: ChapterUi) = item.open(viewModel)
             })
-        viewModel.observeChapters(this) { (chapters, title) ->
-            adapter.update(chapters)
-            updateTitle(title)
+        viewModel.observeChapters(this) { ui ->
+            ui.map(adapter, title())
         }
-        recyclerView?.adapter = adapter
+        setAdapter(adapter)
 
         viewModel.init()
     }

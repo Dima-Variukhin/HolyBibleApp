@@ -3,11 +3,9 @@ package com.example.holybibleapp.presentation.books
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.holybibleapp.NavigationCommunication
 import com.example.holybibleapp.R
-import com.example.holybibleapp.core.CacheDataSource
 import com.example.holybibleapp.core.ResourceProvider
 import com.example.holybibleapp.core.Save
 import com.example.holybibleapp.core.Show
@@ -42,22 +40,22 @@ class BooksViewModel(
     }
 
     fun fetchBooks() {
-        communication.map(listOf(BookUi.Progress))
+        communication.map(BooksUi.Base(listOf(BookUi.Progress)))
         viewModelScope.launch(Dispatchers.IO) {
             val resultDomain = booksInteractor.fetchBooks()
             val resultUi = resultDomain.map(mapper)
             withContext(Dispatchers.Main) {
-                resultUi.map(communication)
+                communication.map(resultUi)
             }
         }
     }
 
-    fun observe(owner: LifecycleOwner, observer: Observer<List<BookUi>>) {
+    fun observe(owner: LifecycleOwner, observer: Observer<BooksUi>) {
         communication.observe(owner, observer)
     }
 
     fun collapseOrExpand(id: Int) {
-        communication.map(uiDataCache.changeState(id))
+        communication.map(BooksUi.Base(uiDataCache.changeState(id)))
     }
 
     override fun open(id: Int) {

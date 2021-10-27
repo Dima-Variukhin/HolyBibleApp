@@ -1,14 +1,11 @@
 package com.example.holybibleapp.presentation.languages
 
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import com.example.holybibleapp.NavigationCommunication
 import com.example.holybibleapp.R
 import com.example.holybibleapp.core.ResourceProvider
 import com.example.holybibleapp.presentation.BaseViewModel
-import com.example.holybibleapp.presentation.Navigator
 
 class LanguagesViewModel(
     private val communication: LanguagesCommunication,
@@ -43,7 +40,7 @@ class LanguagesViewModel(
             else -> LanguageChoice.NONE
         }
         communication.map(
-            LanguageUi(
+            LanguageUi.Base(
                 choice,
                 resourceProvider.getString(R.string.english),
                 resourceProvider.getString(R.string.russian)

@@ -3,7 +3,6 @@ package com.example.holybibleapp.presentation.chapters
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.holybibleapp.NavigationCommunication
 import com.example.holybibleapp.core.*
@@ -29,17 +28,22 @@ class ChaptersViewModel(
 
     }
 
-    fun observeChapters(owner: LifecycleOwner, observer: Observer<Pair<List<ChapterUi>, String>>) {
+    fun observeChapters(owner: LifecycleOwner, observer: Observer<ChaptersUi>) {
         chaptersCommunication.observe(owner, observer)
     }
 
     fun fetchChapters() {
-        chaptersCommunication.map(Pair(listOf(ChapterUi.Progress), getTitle()))
+        chaptersCommunication.map(
+            ChaptersUi.Base(listOf(ChapterUi.Progress),
+                object : Abstract.Object<Unit, TextMapper> {
+                    override fun map(mapper: TextMapper) = mapper.map(getTitle())
+                })
+        )
         viewModelScope.launch(Dispatchers.IO) {
             val chapters = chaptersInteractor.showChapters()
             val chaptersUi = chapters.map(chaptersMapper)
             withContext(Dispatchers.Main) {
-                chaptersUi.map(chaptersCommunication)
+                chaptersCommunication.map(chaptersUi)
             }
         }
     }
