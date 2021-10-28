@@ -21,6 +21,7 @@ class ChaptersFragment : BaseFragment<ChaptersViewModel>() {
             })
         viewModel.observeChapters(this) { ui ->
             ui.map(adapter, title())
+            scrollTo()
         }
         setAdapter(adapter)
 

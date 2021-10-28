@@ -10,7 +10,6 @@ import com.example.holybibleapp.data.verses.cloud.VersesCloudMapper
 import com.example.holybibleapp.data.verses.cloud.VersesService
 import com.example.holybibleapp.domain.verses.BaseVerseDataToDomainMapper
 import com.example.holybibleapp.domain.verses.BaseVersesDataToDomainMapper
-import com.example.holybibleapp.domain.verses.VersesDomainToUiMapper
 import com.example.holybibleapp.domain.verses.VersesInteractor
 import com.example.holybibleapp.presentation.verses.BaseVerseDomainToUiMapper
 import com.example.holybibleapp.presentation.verses.BaseVersesDomainToUiMapper
@@ -39,10 +38,10 @@ class VersesModule(
     private fun getInteractor() = VersesInteractor.Base(
         getRepository(),
         BaseVersesDataToDomainMapper(BaseVerseDataToDomainMapper()),
-        coreModule.resourceProvider,
         coreModule.chapterCache,
         booksModule.repository(),
-        coreModule.bookCache
+        coreModule.bookCache,
+        coreModule.scrollPositionCache
     )
 
     private fun getRepository(): VersesRepository {

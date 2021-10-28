@@ -28,6 +28,7 @@ class BooksFragment : BaseFragment<BooksViewModel>() {
         viewModel.observe(this)
         {
             it.map(adapter)
+            scrollTo()
         }
         //в навигатор кладется айди бук скрин
         viewModel.init()

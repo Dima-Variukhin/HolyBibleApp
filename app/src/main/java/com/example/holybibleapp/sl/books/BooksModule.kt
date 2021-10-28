@@ -42,7 +42,8 @@ class BooksModule(
 
     private fun getBooksInteractor() = BooksInteractor.Base(
         repository(),
-        BaseBooksDataToDomainMapper(BaseBookDataToDomainMapper())
+        BaseBooksDataToDomainMapper(BaseBookDataToDomainMapper()),
+        coreModule.scrollPositionCache
     )
 
     private fun getBooksRepository(): BooksRepository {

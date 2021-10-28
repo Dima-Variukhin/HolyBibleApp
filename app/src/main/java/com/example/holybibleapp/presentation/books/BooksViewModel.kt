@@ -69,4 +69,8 @@ class BooksViewModel(
     }
 
     fun save() = uiDataCache.saveState()
+
+    override fun scrollPosition() = booksInteractor.scrollPosition()
+
+    override fun saveScrollPosition(position: Int) = booksInteractor.saveScrollPosition(position)
 }

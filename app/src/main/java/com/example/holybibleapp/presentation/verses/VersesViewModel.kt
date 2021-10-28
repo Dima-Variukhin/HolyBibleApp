@@ -37,4 +37,7 @@ class VersesViewModel(
     fun observeVerses(owner: LifecycleOwner, observer: Observer<VersesUi>) {
         communication.observe(owner, observer)
     }
+
+    override fun scrollPosition() = interactor.scrollPosition()
+    override fun saveScrollPosition(position: Int) = interactor.saveScrollPosition(position)
 }

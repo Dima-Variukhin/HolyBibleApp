@@ -18,6 +18,7 @@ class VersesFragment : BaseFragment<VersesViewModel>() {
 
         viewModel.observeVerses(this) { ui ->
             ui.map(adapter, title())
+            scrollTo()
         }
         setAdapter(adapter)
 

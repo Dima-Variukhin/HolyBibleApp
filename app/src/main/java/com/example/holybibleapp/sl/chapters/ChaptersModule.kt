@@ -39,7 +39,8 @@ class ChaptersModule(
         getChaptersRepository(),
         BaseChaptersDataToDomainMapper(BaseChapterDataToDomainMapper()),
         booksModule.repository(),
-        coreModule.bookCache
+        coreModule.bookCache,
+        coreModule.scrollPositionCache
     )
 
     private fun getChaptersRepository() = ChaptersRepository.Base(
