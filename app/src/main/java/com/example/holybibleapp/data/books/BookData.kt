@@ -4,7 +4,7 @@ import com.example.holybibleapp.core.*
 import com.example.holybibleapp.data.books.cache.BookDataToDbMapper
 import io.realm.RealmObject
 
-interface BookData : Matcher<TestamentTemp>, Save<TestamentTemp>, Abstract.DataObject,
+interface BookData : Match<TestamentTemp>, Save<TestamentTemp>, Abstract.DataObject,
     Abstract.Object<Unit, TextMapper>, BuildString {
 
     fun <T> map(mapper: BookDataToDomainMapper<T>): T

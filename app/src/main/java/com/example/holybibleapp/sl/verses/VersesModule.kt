@@ -16,12 +16,14 @@ import com.example.holybibleapp.presentation.verses.BaseVersesDomainToUiMapper
 import com.example.holybibleapp.presentation.verses.VersesCommunication
 import com.example.holybibleapp.presentation.verses.VersesViewModel
 import com.example.holybibleapp.sl.books.BooksModule
+import com.example.holybibleapp.sl.chapters.ChaptersModule
 import com.example.holybibleapp.sl.core.BaseModule
 import com.example.holybibleapp.sl.core.CoreModule
 
 class VersesModule(
     private val coreModule: CoreModule,
     private val booksModule: BooksModule,
+    private val chaptersModule: ChaptersModule,
     private val useMocks: Boolean
 ) : BaseModule<VersesViewModel> {
     override fun getViewModel() = VersesViewModel(
@@ -29,7 +31,7 @@ class VersesModule(
         getInteractor(),
         VersesCommunication.Base(),
         BaseVersesDomainToUiMapper(
-            BaseVerseDomainToUiMapper(),
+            BaseVerseDomainToUiMapper(coreModule.resourceProvider),
             coreModule.resourceProvider
         ),
         coreModule.resourceProvider
@@ -41,6 +43,9 @@ class VersesModule(
         coreModule.chapterCache,
         booksModule.repository(),
         coreModule.bookCache,
+        coreModule.scrollPositionCache,
+        chaptersModule.repository(),
+        coreModule.chapterCache,
         coreModule.scrollPositionCache
     )
 

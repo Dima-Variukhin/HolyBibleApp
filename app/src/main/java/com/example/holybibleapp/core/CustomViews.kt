@@ -2,6 +2,7 @@ package com.example.holybibleapp.core
 
 import android.content.Context
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import com.example.holybibleapp.R
@@ -22,6 +23,16 @@ class CustomTextView : AppCompatTextView, TextMapper {
     )
 
     //endregion
+    override fun map(data: String) = setText(data)
+}
+
+class CustomButton : AppCompatButton, TextMapper {
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context, attrs, defStyleAttr
+    )
+
     override fun map(data: String) = setText(data)
 }
 

@@ -2,7 +2,7 @@ package com.example.holybibleapp.presentation.books
 
 import com.example.holybibleapp.core.*
 
-sealed class BookUi : ComparableTextMapper<BookUi>, Matcher<Int>, Collapsing, Open {
+sealed class BookUi : ComparableTextMapper<BookUi>, Match<Int>, Collapsing, Open {
     override fun map(mapper: TextMapper) = Unit
     override fun matches(arg: Int) = false
     open fun changeState(): BookUi = Empty

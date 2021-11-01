@@ -35,8 +35,15 @@ class ChaptersModule(
         coreModule.resourceProvider
     )
 
+    private var repository: ChaptersRepository? = null
+    fun repository(): ChaptersRepository {
+        if (repository == null)
+            repository = getChaptersRepository()
+        return repository!!
+    }
+
     private fun getChaptersInteractor() = ChaptersInteractor.Base(
-        getChaptersRepository(),
+        repository(),
         BaseChaptersDataToDomainMapper(BaseChapterDataToDomainMapper()),
         booksModule.repository(),
         coreModule.bookCache,

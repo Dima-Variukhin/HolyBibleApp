@@ -1,7 +1,7 @@
 package com.example.holybibleapp.data.books.cloud
 
 import com.example.holybibleapp.core.Content
-import com.example.holybibleapp.core.Matcher
+import com.example.holybibleapp.core.Match
 import com.example.holybibleapp.data.books.ToBookMapper
 import com.example.holybibleapp.data.chapters.cloud.ChapterCloud
 import com.example.holybibleapp.data.chapters.cloud.ChapterRu
@@ -18,7 +18,7 @@ data class BookRu(
     @SerializedName("book_name") private val name: String,
     @SerializedName("book") private val content: Map<String, ChapterRu>,
     @SerializedName("book_nr") private val number: Int
-) : BookCloud, Matcher<Int>, Content<ChapterCloud> {
+) : BookCloud, Match<Int>, Content<ChapterCloud> {
 
     override fun <T> map(mapper: ToBookMapper<T>): T {
         return mapper.map(

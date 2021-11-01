@@ -3,4 +3,5 @@
     <string name="choose_language">Выберите язык</string>
     <string name="english">Английский</string>
     <string name="russian">Русский</string>
+    <string name="next_chapter">Перейти к следующей главе</string>
 </resources>

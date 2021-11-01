@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.holybibleapp.MainActivity
 import com.example.holybibleapp.R
-import com.example.holybibleapp.core.Matcher
+import com.example.holybibleapp.core.Match
 import com.example.holybibleapp.core.TextMapper
 
-abstract class BaseFragment<T : BaseViewModel> : Fragment(), Matcher<String> {
+abstract class BaseFragment<T : BaseViewModel> : Fragment(), Match<String> {
     private var hasScrolled = false
     protected lateinit var viewModel: T
     private var recyclerView: RecyclerView? = null

@@ -40,4 +40,8 @@ class VersesViewModel(
 
     override fun scrollPosition() = interactor.scrollPosition()
     override fun saveScrollPosition(position: Int) = interactor.saveScrollPosition(position)
+    fun showNextChapterVerses(item: VerseUi) {
+        interactor.showNextChapter()
+        fetchVerses()
+    }
 }

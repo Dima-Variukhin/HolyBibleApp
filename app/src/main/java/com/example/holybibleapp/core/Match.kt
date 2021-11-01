@@ -1,5 +1,5 @@
 package com.example.holybibleapp.core
 
-interface Matcher<T> {
+interface Match<T> {
     fun matches(arg: T): Boolean
 }

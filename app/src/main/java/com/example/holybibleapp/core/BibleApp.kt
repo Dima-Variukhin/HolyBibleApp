@@ -19,12 +19,16 @@ class BibleApp : Application() {
         BooksModule(coreModule, USE_MOCKS)
     }
 
-    val factory by lazy {
+    private val chaptersModule by lazy {
+        ChaptersModule(coreModule, booksModule, USE_MOCKS)
+    }
+
+    private val factory by lazy {
         ViewModelsFactory(
             coreModule,
             booksModule,
-            ChaptersModule(coreModule, booksModule, USE_MOCKS),
-            VersesModule(coreModule, booksModule, USE_MOCKS),
+            chaptersModule,
+            VersesModule(coreModule, booksModule, chaptersModule, USE_MOCKS),
             LanguagesModule(coreModule)
         )
     }

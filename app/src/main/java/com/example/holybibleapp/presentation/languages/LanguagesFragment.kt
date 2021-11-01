@@ -61,7 +61,6 @@ class LanguagesFragment : BaseFragment<LanguagesViewModel>() {
                 ::russianChosen,
                 ::englishChosen,
                 ::noLanguageChosen
-
             )
         }
         viewModel.init()

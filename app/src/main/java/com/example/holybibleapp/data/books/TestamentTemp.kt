@@ -1,10 +1,9 @@
 package com.example.holybibleapp.data.books
 
-import com.example.holybibleapp.core.Matcher
-import com.example.holybibleapp.core.CacheDataSource
+import com.example.holybibleapp.core.Match
 import com.example.holybibleapp.core.Save
 
-interface TestamentTemp : Matcher<String>, Save<String> {
+interface TestamentTemp : Match<String>, Save<String> {
     fun isEmpty(): Boolean
     class Base : TestamentTemp {
         private var temp: String = ""

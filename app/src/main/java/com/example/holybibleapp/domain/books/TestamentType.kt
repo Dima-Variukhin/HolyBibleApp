@@ -1,8 +1,8 @@
 package com.example.holybibleapp.domain.books
 
-import com.example.holybibleapp.core.Matcher
+import com.example.holybibleapp.core.Match
 
-enum class TestamentType(private val id: Int) : Matcher<Int> {
+enum class TestamentType(private val id: Int) : Match<Int> {
     OLD(Int.MIN_VALUE),
     NEW(Int.MAX_VALUE);
 
